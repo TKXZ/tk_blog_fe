@@ -1,6 +1,17 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+// 样式重置
+import '@/assets/style/reset.scss';
+
+
+// 路由
+import router from '@/router';
+
+
+const app = createApp(App)
+app.use(router);
+
+
+app.mount('#app')
+

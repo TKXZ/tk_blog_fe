@@ -1,0 +1,19 @@
+// 字体
+@font-face {
+  font-family: dingding;
+  src: url('@/assets/font/dingding/DingTalk-JinBuTi.ttf') format('ttf'),
+    url('@/assets/font/dingding/DingTalk-JinBuTi.woff') format('woff'),
+    url('@/assets/font/dingding/DingTalk-JinBuTi.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+}
+
+// 大小
+$lg-font-size: 22px;
+$md-font-size: 16px;
+$sm-font-size: 12px;
+
+// 字间距
+$sm-font-space: 2px;
+$md-font-space: 4px;
+$lg-font-space: 6px;
