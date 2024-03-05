@@ -1,7 +1,8 @@
 <script setup>
 import HeaderCpt from '@/components/header/HeaderCpt.vue';
 import FooterCpt from '@/components/footer/FooterCpt.vue';
-import { nextTick, onMounted } from 'vue';
+import { nextTick, onMounted, onBeforeUnmount } from 'vue';
+import eBus from '@/utils/event-bus'
 
 onMounted(() => {
   nextTick(() => {
@@ -15,6 +16,10 @@ onMounted(() => {
       console.error(error.message)
     }
   })
+})
+
+onBeforeUnmount(() => {
+  eBus.$offAll();
 })
 
 </script>
