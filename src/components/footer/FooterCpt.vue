@@ -7,7 +7,7 @@
   <div class="footer">
     <div class="footer-content">
       <el-row justify="center">
-        <el-col span="12">
+        <el-col :span="12" class="footer-text-box">
           <span class="made">Made with ❤️ by TK_Wang</span>
         </el-col>
       </el-row>
@@ -19,8 +19,13 @@
 <style lang="scss">
 .footer {
   .footer-content {
-    .made {
-      font-size: $sm-font-size;
+    .footer-text-box {
+      display: flex;
+      justify-content: center;
+
+      .made {
+        font-size: $sm-font-size;
+      }
     }
   }
 }

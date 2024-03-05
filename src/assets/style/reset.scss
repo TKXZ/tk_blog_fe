@@ -9,10 +9,34 @@ p {
   padding: 0;
 }
 
-body {
+body,
+.markdown-body {
   font-family: "dingding", "Microsoft Yahei";
 }
 
-ul {
+ul:not(.markdown-body-ul) {
   list-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  width: 4px;
+
+  &:hover {
+    width: 6px;
+  }
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #e0e0e0;
+
+  &:hover {
+    cursor: pointer;
+    background: $color-primary;
+  }
 }

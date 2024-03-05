@@ -1,6 +1,6 @@
 <script setup>
 import { useRelativeTime } from '@/utils/date'
-import { defineProps, toRefs } from 'vue';
+import { toRefs } from 'vue';
 
 const props = defineProps({
   data: {
@@ -22,13 +22,13 @@ const { data } = toRefs(props)
     <div class="item__desc">{{ data.desc }}</div>
     <div class="item__info-box">
       <el-row justify="end">
-        <el-col class="time-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="3">
+        <el-col class="time-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
           <el-icon size="14" class="icon">
             <icon-ep-clock />
           </el-icon>
           <span class="item__time">发布时间:{{ useRelativeTime(data.publishTime) }}</span>
         </el-col>
-        <el-col class="author-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="3">
+        <el-col class="author-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
           <el-icon size="14" class="icon">
             <icon-ep-user />
           </el-icon>

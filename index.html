@@ -6,9 +6,34 @@
   <link rel="icon" href="/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vite App</title>
+  <link rel="stylesheet" href="/style/article.css">
+  <link rel="stylesheet" href="/style/github.hl.css">
+  <style>
+    #loading-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      background-color: #fff;
+      opacity: 1;
+      transition: all .8s linear 0s;
+    }
+
+    #loading-gif {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  </style>
 </head>
 
 <body>
+  <div id="loading-container">
+    <img id="loading-gif" src="/images/loading.gif" alt="">
+  </div>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>
 </body>

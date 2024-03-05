@@ -1,6 +1,21 @@
 <script setup>
 import HeaderCpt from '@/components/header/HeaderCpt.vue';
 import FooterCpt from '@/components/footer/FooterCpt.vue';
+import { nextTick, onMounted } from 'vue';
+
+onMounted(() => {
+  nextTick(() => {
+    try {
+      const $loading = document.getElementById('loading-container');
+      $loading.style.opacity = 0;
+      setTimeout(() => {
+        $loading.style.display = 'none'
+      }, 800)
+    } catch (error) {
+      console.error(error.message)
+    }
+  })
+})
 
 </script>
 
@@ -10,7 +25,7 @@ import FooterCpt from '@/components/footer/FooterCpt.vue';
       <el-header>
         <header-cpt />
       </el-header>
-      <el-main>
+      <el-main class="app-main">
         <router-view></router-view>
       </el-main>
       <el-footer class="footer-container">
@@ -21,6 +36,9 @@ import FooterCpt from '@/components/footer/FooterCpt.vue';
 </template>
 
 <style lang="scss" scoped>
+.app-main {
+  overflow: visible !important;
+}
 .common-layout {
   background-color: $white-bg-color;
 }

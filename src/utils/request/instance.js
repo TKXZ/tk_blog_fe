@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://mock.apifox.com/m1/4018275-0-default';
+const MOCK_URL = 'https://mock.apifox.com/m1/4018275-0-default';
+const BASE_URL = 'http://localhost:3636';
 
 /**
  * 处理 http 状态码

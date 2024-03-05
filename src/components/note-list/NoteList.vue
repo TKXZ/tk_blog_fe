@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import { getArticleList } from '@/api/article';
 import { onMounted, ref, unref, reactive } from 'vue';
 import NoteListItem from './NoteListItem.vue';
+import EmptyData from '@/components/empty-data/EmptyData.vue';
 
 const router = useRouter();
 
@@ -29,6 +30,10 @@ async function loadArticleList(option) {
   articleList.list = data;
 }
 
+/**
+ * 点击文章
+ * @param {*} id 
+ */
 function handleClickNote(id) {
   router.push({
     name: 'ArticleDetail',
@@ -44,11 +49,13 @@ onMounted(() => {
 
 <template>
   <div class="note-list">
-    <el-space direction="vertical" :fill="true" :size="20" class="note-list__el-space">
+    <el-space direction="vertical" :fill="true" :size="20" class="note-list__el-space" v-if="articleList.list.length > 0">
       <note-list-item v-for="(item) in articleList.list" :key="item.id" :data="item"
         :default-click="() => { handleClickNote(item.id) }"></note-list-item>
     </el-space>
-    <el-pagination background layout="prev, pager, next" :total="articleList.total" />
+    <empty-data v-else></empty-data>
+    <el-pagination background layout="prev, pager, next" :total="articleList.list.length"
+      :page-size="getListConfig.size" />
   </div>
 </template>
 

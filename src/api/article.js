@@ -1,7 +1,7 @@
 import { get } from '@/utils/request';
 
-const ARTICLE_LIST = '/api/article/list';
-const ARTICLE_DETAIL = '/api/article/detail';   // param: id required
+const ARTICLE_LIST = '/article/list';
+const ARTICLE_DETAIL = '/article/detail';   // param: id required
 
 /**
  * 获取文章列表
