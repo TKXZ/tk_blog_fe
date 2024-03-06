@@ -3,6 +3,8 @@ import { onMounted, reactive, nextTick } from 'vue';
 import { useRouter } from 'vue-router'
 import { getArticleDetail } from '@/api/article';
 import catalogTree from './components/catalog-tree.vue'
+import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue';
+import { useUserAgent } from '@/utils/device';
 
 
 const router = useRouter();
@@ -47,7 +49,8 @@ const renderArticle = (nodeId, data) => {
         <div class="markdown-body" id="markdown-body"></div>
       </el-col>
       <el-col :span="5" :offset="1" class="tree">
-        <catalog-tree :catalog="articleState.catalog"></catalog-tree>
+        <catalog-tree :catalog="articleState.catalog" v-if="useUserAgent() === 2"></catalog-tree>
+        <catalog-tree-mobile :catalog="articleState.catalog" v-else></catalog-tree-mobile>
       </el-col>
     </el-row>
   </div>
@@ -55,4 +58,4 @@ const renderArticle = (nodeId, data) => {
 
 
 <style lang="scss" scoped>
-</style>
+</style>./components/mobile/catalog-tree-mobile.vue

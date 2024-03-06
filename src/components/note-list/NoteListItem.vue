@@ -26,13 +26,13 @@ const { data } = toRefs(props)
           <el-icon size="14" class="icon">
             <icon-ep-clock />
           </el-icon>
-          <span class="item__time">发布时间:{{ useRelativeTime(data.publishTime) }}</span>
+          <span class="item__time item__info-text">发布时间:{{ useRelativeTime(data.publishTime) }}</span>
         </el-col>
         <el-col class="author-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
           <el-icon size="14" class="icon">
             <icon-ep-user />
           </el-icon>
-          <span class="item__author">作者:{{ data.author }}</span>
+          <span class="item__author item__info-text">作者:{{ data.author }}</span>
         </el-col>
       </el-row>
     </div>
@@ -44,6 +44,7 @@ const { data } = toRefs(props)
 @use '@/assets/style/mixin.scss' as _mixin;
 
 .note-list-item {
+  box-sizing: border-box;
   padding: $lg-space;
   border-radius: $sm-border-radius;
   box-shadow: $sm-box-shadow;
@@ -86,7 +87,7 @@ const { data } = toRefs(props)
       }
     }
 
-    &__author {
+    &__info-text {
       @include _mixin.single-text;
     }
   }

@@ -40,3 +40,8 @@ ul:not(.markdown-body-ul) {
     background: $color-primary;
   }
 }
+
+::root {
+  --animation-duration: .5s;
+  --animation-delay: 1s;
+}

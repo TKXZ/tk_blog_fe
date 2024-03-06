@@ -3,18 +3,11 @@ import HeaderCpt from '@/components/header/HeaderCpt.vue';
 import FooterCpt from '@/components/footer/FooterCpt.vue';
 import { nextTick, onMounted, onBeforeUnmount } from 'vue';
 import eBus from '@/utils/event-bus'
+import { closeLoading } from './utils/loading';
 
 onMounted(() => {
   nextTick(() => {
-    try {
-      const $loading = document.getElementById('loading-container');
-      $loading.style.opacity = 0;
-      setTimeout(() => {
-        $loading.style.display = 'none'
-      }, 800)
-    } catch (error) {
-      console.error(error.message)
-    }
+    closeLoading()
   })
 })
 
@@ -31,7 +24,11 @@ onBeforeUnmount(() => {
         <header-cpt />
       </el-header>
       <el-main class="app-main">
-        <router-view></router-view>
+        <router-view #default="{ route, Component }">
+          <transition :enter-active-class="`animate__animated ${route.meta.transition_in}`">
+            <component :is="Component"></component>
+          </transition>
+        </router-view>
       </el-main>
       <el-footer class="footer-container">
         <footer-cpt />
@@ -42,7 +39,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .app-main {
-  overflow: visible !important;
+  overflow: visible;
 }
 .common-layout {
   background-color: $white-bg-color;

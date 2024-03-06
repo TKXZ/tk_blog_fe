@@ -5,6 +5,9 @@ import eBus from '@/utils/event-bus';
 
 const searchContent = ref("");
 
+/**
+ * 派发搜索
+ */
 const handleSearch = () => {
   eBus.$emit('onSearch', unref(searchContent))
 }

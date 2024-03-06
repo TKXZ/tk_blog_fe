@@ -35,7 +35,6 @@ const defaultProps = {
     :default-expand-all="true"
     @node-click="handleNodeClick"
   />
-
   </div>
 </template>
 

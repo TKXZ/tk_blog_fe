@@ -5,15 +5,17 @@ import { onMounted, reactive, onBeforeUnmount } from 'vue';
 import NoteListItem from './NoteListItem.vue';
 import EmptyData from '@/components/empty-data/EmptyData.vue';
 import eBus from '@/utils/event-bus';
+import { openLoading } from '@/utils/loading';
 
 const router = useRouter();
 /**
  * 搜索框查询
  */
-const handleSearch = (search) => {
+const handleSearch = async (search) => {
   getListConfig.search = search;
   getListConfig.page = 1;
-  loadArticleList(getListConfig)
+  await loadArticleList(getListConfig)
+  eBus.$emit('onSearchRes', )
 }
 eBus.$on('onSearch', handleSearch)
 
@@ -44,6 +46,7 @@ const articleList = reactive({
  * @param {*} option 
  */
 async function loadArticleList(option) {
+  openLoading();
   const { articleList: list, count } = await getArticleList(option);
   articleList.list = list;
   articleList.count = count;
@@ -71,16 +74,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="note-list">
-    <el-space 
-      direction="vertical" 
-      :fill="true" 
-      :size="20" 
-      class="note-list__el-space" 
+  <div class="note-list-container">
+    <div
+      class="note-list-box" 
       v-if="articleList.count > 0">
-      <note-list-item v-for="(item) in articleList.list" :key="item.id" :data="item"
-        :default-click="() => { handleClickNote(item.id) }"></note-list-item>
-    </el-space>
+      <note-list-item class="note-list-box__item" v-for="(item) in articleList.list" :key="item.id" :data="item"
+        :default-click="() => { handleClickNote(item.id) }" />
+    </div> 
     <empty-data v-else></empty-data>
     <el-pagination 
       background 
@@ -96,14 +96,19 @@ onBeforeUnmount(() => {
 
 
 <style lang="scss">
-.note-list {
+.note-list-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  &__el-space {
+  .note-list-box {
     width: 100%;
-    margin-bottom: $md-block-space;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__item {
+      width: 100%;
+      margin-bottom: 20px;
+    }
   }
 }
 </style>

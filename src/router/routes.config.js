@@ -4,6 +4,9 @@ const routes = [
   {
     path: '/',
     name: 'Index',
+    meta: {
+      transition_in: 'animate__fadeInUp'
+    },
     component: MainCpt,
   },
   {
@@ -13,6 +16,9 @@ const routes = [
       {
         path: '/article/detail/:id',
         name: 'ArticleDetail',
+        meta: {
+          transition_in: 'animate__fadeInUp'
+        },
         component: () => import('@/views/article-detail/ArticleDetail.vue'),
       },
     ]
