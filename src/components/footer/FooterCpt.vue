@@ -24,7 +24,7 @@
       justify-content: center;
 
       .made {
-        font-size: $sm-font-size;
+        font-size: var(--el-font-size-extra-small);
       }
     }
   }

@@ -108,6 +108,12 @@
   background-color: #ffffff;
 }
 
+.markdown-body-img {
+  display: block;
+  margin: 80px auto;
+  zoom: 60%;
+}
+
 .markdown-body code,
 .markdown-body kbd,
 .markdown-body pre,

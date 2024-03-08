@@ -10,10 +10,24 @@ const handleNodeClick = (e) => {
   window.scrollTo({top: $t.offsetTop, behavior: 'smooth'})
 }
 
+
 defineProps({
   catalog: {
     type: Array,
     required: true
+  },
+  style: {
+    type: Object,
+    default: () => {
+      return {
+        height: '400px',
+        overflow: 'auto',
+        padding: '10px',
+        position: 'sticky',
+        top: '80px',
+        borderLeft: '1px solid var(--el-border-color-lighter)',
+      }
+    }
   }
 })
 
@@ -26,26 +40,24 @@ const defaultProps = {
 
 
 <template>
-  <div class="catalog-tree-container">
+  <div class="catalog-tree-container" :style="style">
     <el-tree
-    style="max-width: 500px; overflow: auto;"
-    :data="catalog"
-    :props="defaultProps"
-    :highlight-current="true"
-    :default-expand-all="true"
-    @node-click="handleNodeClick"
-  />
+      class="catalog-tree"
+      :props="defaultProps"
+      :data="catalog"
+      :highlight-current="true"
+      :default-expand-all="true"
+      @node-click="handleNodeClick"
+    >
+      <template #default="{node}">
+        <div class="custom-tree-node">
+          <span>{{ node.label }}</span>
+        </div>
+      </template>
+    </el-tree>
   </div>
 </template>
 
 
 <style lang="scss" scoped>
-.catalog-tree-container {
-  height: 400px;
-  overflow: auto;
-  padding: 10px;
-  position: sticky;
-  top: 80px;
-  border-left: 1px solid #e0e0e0;
-}
 </style>

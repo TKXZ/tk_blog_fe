@@ -17,7 +17,7 @@ import { Memo } from '@element-plus/icons-vue';
   right: 20px;
   bottom: 50px;
   .open-button {
-    font-size: 12px;
+    font-size: var(--el-font-size-extra-small);
     display: flex;
     flex-direction: column;
     align-items: center;

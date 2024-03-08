@@ -1,18 +1,13 @@
 <script setup>
 import HeaderCpt from '@/components/header/HeaderCpt.vue';
 import FooterCpt from '@/components/footer/FooterCpt.vue';
-import { nextTick, onMounted, onBeforeUnmount } from 'vue';
-import eBus from '@/utils/event-bus'
+import { nextTick, onMounted } from 'vue';
 import { closeLoading } from './utils/loading';
 
 onMounted(() => {
   nextTick(() => {
-    closeLoading()
+    closeLoading();
   })
-})
-
-onBeforeUnmount(() => {
-  eBus.$offAll();
 })
 
 </script>
@@ -20,12 +15,13 @@ onBeforeUnmount(() => {
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>
+      <el-header class="el-header-container">
         <header-cpt />
       </el-header>
       <el-main class="app-main">
-        <router-view #default="{ route, Component }">
-          <transition :enter-active-class="`animate__animated ${route.meta.transition_in}`">
+        <router-view #default="{ Component }">
+          <transition 
+          :enter-active-class="`animate__animated animate__fadeInUp animate__fast`">
             <component :is="Component"></component>
           </transition>
         </router-view>
@@ -39,10 +35,10 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .app-main {
-  overflow: visible;
+  overflow: visible; // 兼容 sticky
 }
 .common-layout {
-  background-color: $white-bg-color;
+  background-color: var(--el-color-white);
 }
 
 .footer-container {

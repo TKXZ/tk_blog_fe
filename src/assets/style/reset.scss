@@ -33,15 +33,10 @@ ul:not(.markdown-body-ul) {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 4px;
-  background: #e0e0e0;
+  background: var(--el-fill-color);
 
   &:hover {
     cursor: pointer;
-    background: $color-primary;
+    background: var(--el-color-primary);
   }
-}
-
-::root {
-  --animation-duration: .5s;
-  --animation-delay: 1s;
 }

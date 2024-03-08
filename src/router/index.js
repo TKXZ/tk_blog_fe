@@ -8,20 +8,31 @@ const router = createRouter({
   scrollBehavior: (to, from, savedPosition) => {
     if (savedPosition) {
       return savedPosition;
-    } else {
-      return {
-        top: 0
-      }
     }
   }
 })
 
-router.beforeEach((to, from) => {
+/**
+ * 更改网页标题
+ * @param {*} title 
+ */
+const changeTitle = (title) => {
+  document.title = title;
+}
+
+router.beforeEach(() => {
   openLoading();
 })
 
-router.afterEach((to, from) => {
-  closeLoading()
+router.afterEach((to) => {
+  const meta = to.meta;
+  closeLoading();
+  if (meta) {
+    const { title } = meta;
+    if (title) {
+      changeTitle(title)
+    }
+  }
 })
 
 export default router;

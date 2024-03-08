@@ -46,19 +46,19 @@ const { data } = toRefs(props)
 .note-list-item {
   box-sizing: border-box;
   padding: $lg-space;
-  border-radius: $sm-border-radius;
-  box-shadow: $sm-box-shadow;
+  border-radius: var(--el-border-radius-base);
+  box-shadow: var(--el-box-shadow-lighter);
   transition: all .5s ease 0s;
 
   &:hover {
     cursor: pointer;
     transform: scale(1.02);
-    box-shadow: $md-box-shadow;
+    box-shadow: var(--el-box-shadow-light);
   }
 
   .item {
     &__title {
-      font-size: $lg-font-size;
+      font-size: var(--el-font-size-extra-large);
       margin-bottom: $md-space;
       letter-spacing: $sm-font-space;
 
@@ -66,16 +66,16 @@ const { data } = toRefs(props)
     }
 
     &__desc {
-      color: $second-text-color;
-      font-size: $sm-font-size;
+      color: var(--el-text-color-secondary);
+      font-size: var(--el-font-size-extra-small);
       margin-bottom: $lg-space;
 
       @include _mixin.single-text;
     }
 
     &__info-box {
-      font-size: $sm-font-size;
-      color: $color-info;
+      font-size: var(--el-font-size-extra-small);
+      color: var(--el-color-info-dark-2);
 
       .info-item {
         display: flex;

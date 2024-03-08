@@ -5,7 +5,6 @@ import { onMounted, reactive, onBeforeUnmount } from 'vue';
 import NoteListItem from './NoteListItem.vue';
 import EmptyData from '@/components/empty-data/EmptyData.vue';
 import eBus from '@/utils/event-bus';
-import { openLoading } from '@/utils/loading';
 
 const router = useRouter();
 /**
@@ -19,16 +18,24 @@ const handleSearch = async (search) => {
 }
 eBus.$on('onSearch', handleSearch)
 
+/**
+ * 首页列表页码更变
+ */
 const pageChange = (page) => {
   getListConfig.page = page;
   loadArticleList(getListConfig)
 }
+
+/**
+ * 首页列表页容量更变
+ */
 const sizeChange = (size) => {
   getListConfig.size = size;
   loadArticleList(getListConfig)
 }
+
 /**
- * 文章列表配置
+ * 文章列表请求配置
  */
 const getListConfig = reactive({
   search: '',
@@ -36,6 +43,9 @@ const getListConfig = reactive({
   size: 8,
 });
 
+/**
+ * 文章列表数据
+ */
 const articleList = reactive({
   list: [],
   count: 0,
@@ -46,7 +56,6 @@ const articleList = reactive({
  * @param {*} option 
  */
 async function loadArticleList(option) {
-  openLoading();
   const { articleList: list, count } = await getArticleList(option);
   articleList.list = list;
   articleList.count = count;
@@ -78,8 +87,10 @@ onBeforeUnmount(() => {
     <div
       class="note-list-box" 
       v-if="articleList.count > 0">
-      <note-list-item class="note-list-box__item" v-for="(item) in articleList.list" :key="item.id" :data="item"
-        :default-click="() => { handleClickNote(item.id) }" />
+      <transition-group name="note-list">
+        <note-list-item class="note-list-box__item" v-for="(item) in articleList.list" :key="item.id" :data="item"
+          :default-click="() => { handleClickNote(item.id) }" />
+      </transition-group>
     </div> 
     <empty-data v-else></empty-data>
     <el-pagination 
@@ -96,6 +107,21 @@ onBeforeUnmount(() => {
 
 
 <style lang="scss">
+.note-list-move,
+.note-list-enter-active,
+.note-list-leave-active {
+  transition: all var(--el-transition-duration);
+}
+.note-list-enter-from,
+.note-list-leave-to {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+.note-list-leave-active {
+  position: absolute;
+}
+
+
 .note-list-container {
   display: flex;
   flex-direction: column;

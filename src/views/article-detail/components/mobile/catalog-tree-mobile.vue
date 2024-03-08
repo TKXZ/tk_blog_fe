@@ -1,44 +1,44 @@
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, reactive } from 'vue';
+import catalogTree from '../catalog-tree.vue';
 import catalogTreeOpen from './catalog-tree-open.vue';
 
 const treeMask = ref(null);
-const tree = ref(null);
-
-/**
- * 点击目录项
- */
-const handleNodeClick = (e) => {
-  const $t = document.getElementById(e.text);
-  // $t.scrollIntoView(true, { behavior: "smooth" });
-
-  window.scrollTo({top: $t.offsetTop, behavior: 'smooth'})
-  closeCatalogTree();
-}
+const treeStyle = reactive({
+    position: 'fixed',
+    right: '-100%',
+    top: '60px',
+    bottom: '0',
+    maxWidth: '60%',
+    overflow: 'scroll',
+    backgroundColor: 'var(--el-color-white)',
+    transition: 'right .5s ease 0s',
+})
 
 /**
  * 关闭目录树
  */
 const closeCatalogTree = () => {
   const $treeMask = treeMask.value;
-  const $tree = tree.value;
 
   $treeMask.style.background = 'transparent';
   setTimeout(() => {
     $treeMask.style.display = 'none';
   }, 300)
 
-  $tree.style.right = `-${$tree.offsetWidth}px`
+  treeStyle.right = `-1000px`
 }
 
+/**
+ * 打开目录树
+ */
 const openCatalogTree = () => {
   const $treeMask = treeMask.value;
-  const $tree = tree.value;
 
   $treeMask.style.background = '#0000001f';
   $treeMask.style.display = 'block';
   setTimeout(() => {
-    $tree.style.right = '0px'
+    treeStyle.right = '0px'
   })
 }
 
@@ -49,25 +49,12 @@ defineProps({
   }
 })
 
-const defaultProps = {
-  children: 'children',
-  label: 'text',
-}
 </script>
 
 
 <template>
   <div class="catalog-tree-mask" ref="treeMask" @click="closeCatalogTree">
-    <div class="catalog-tree-container" ref="tree">
-      <el-tree
-      style="overflow: auto;"
-      :data="catalog"
-      :props="defaultProps"
-      :highlight-current="true"
-      :default-expand-all="true"
-      @node-click="handleNodeClick"
-    />
-    </div>
+    <catalog-tree :style="treeStyle" :catalog="catalog"/>
   </div>
   <div>
     <catalog-tree-open @click="openCatalogTree"/>
@@ -76,6 +63,8 @@ const defaultProps = {
 
 
 <style lang="scss" scoped>
+@use '@/assets/style/mixin.scss' as _mixin;
+
 .catalog-tree-mask {
   display: none;
   position: fixed;
@@ -83,21 +72,12 @@ const defaultProps = {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #0000001f;
   z-index: 999;
-  transition: all .3s ease 0s;
+  transition: all var(--el-transition-duration) ease 0s;
   .catalog-tree-container {
-    position: fixed;
-    right: 0;
-    top: 60px;
-    bottom: 0;
-    max-width: 60%;
-    height: 100%;
-    overflow: scroll;
-    box-sizing: border-box;
-    padding: 10px 0;
-    background-color: #fff;
-    transition: right .5s ease 0s;
+    .custom-tree-node {
+      @include _mixin.single-text;
+    }
   }
 }
 </style>
