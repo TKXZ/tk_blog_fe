@@ -1,16 +1,18 @@
 <script setup>
 import { useRelativeTime } from '@/utils/date'
-import { toRefs } from 'vue';
+import { toRefs } from 'vue'
 
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
+    required: true
   },
   defaultClick: {
     type: Function,
-    default: () => { console.log('NoteListItem clicked') }
-  },
+    default: () => {
+      console.log('NoteListItem clicked')
+    }
+  }
 })
 
 const { data } = toRefs(props)
@@ -24,13 +26,15 @@ const { data } = toRefs(props)
       <el-row justify="end">
         <el-col class="time-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
           <el-icon size="14" class="icon">
-            <icon-ep-clock />
+            <i-ep-clock />
           </el-icon>
-          <span class="item__time item__info-text">发布时间:{{ useRelativeTime(data.publishTime) }}</span>
+          <span class="item__time item__info-text"
+            >发布时间:{{ useRelativeTime(data.publishTime) }}</span
+          >
         </el-col>
         <el-col class="author-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
           <el-icon size="14" class="icon">
-            <icon-ep-user />
+            <i-ep-user />
           </el-icon>
           <span class="item__author item__info-text">作者:{{ data.author }}</span>
         </el-col>
@@ -48,7 +52,7 @@ const { data } = toRefs(props)
   padding: $lg-space;
   border-radius: var(--el-border-radius-base);
   box-shadow: var(--el-box-shadow-lighter);
-  transition: all .5s ease 0s;
+  transition: all 0.5s ease 0s;
 
   &:hover {
     cursor: pointer;

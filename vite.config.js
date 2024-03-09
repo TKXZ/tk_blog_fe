@@ -33,12 +33,12 @@ export default defineConfig({
       imports: ['vue'],
       resolvers: [
         ElementPlusResolver(),
+        IconsResolver(),
       ],
     }),
     Components({
       resolvers: [
         IconsResolver({
-          prefix: 'icon',
           enabledCollections: ['ep'],
         }),
         ElementPlusResolver(),

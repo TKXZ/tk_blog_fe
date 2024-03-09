@@ -1,15 +1,14 @@
 <script setup>
-import HeaderCpt from '@/components/header/HeaderCpt.vue';
-import FooterCpt from '@/components/footer/FooterCpt.vue';
-import { nextTick, onMounted } from 'vue';
-import { closeLoading } from './utils/loading';
+import HeaderCpt from '@/components/header/HeaderView.vue'
+import FooterCpt from '@/components/footer/FooterCpt.vue'
+import { nextTick, onMounted } from 'vue'
+import { closeLoading } from './utils/loading'
 
 onMounted(() => {
   nextTick(() => {
-    closeLoading();
+    closeLoading()
   })
 })
-
 </script>
 
 <template>
@@ -20,8 +19,7 @@ onMounted(() => {
       </el-header>
       <el-main class="app-main">
         <router-view #default="{ Component }">
-          <transition 
-          :enter-active-class="`animate__animated animate__fadeInUp animate__fast`">
+          <transition :enter-active-class="`animate__animated animate__fadeInUp animate__fast`">
             <component :is="Component"></component>
           </transition>
         </router-view>
@@ -38,7 +36,7 @@ onMounted(() => {
   overflow: visible; // 兼容 sticky
 }
 .common-layout {
-  background-color: var(--el-color-white);
+  background-color: var(--el-bg-color);
 }
 
 .footer-container {

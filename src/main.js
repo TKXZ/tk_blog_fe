@@ -5,6 +5,7 @@ import App from './App.vue'
 import '@/assets/style/reset.scss';
 import '@/assets/style/media/index.scss'
 import 'animate.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 
 // 路由

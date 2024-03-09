@@ -1,21 +1,24 @@
 <script setup>
-import { onMounted, reactive, nextTick } from 'vue';
+import { onMounted, reactive, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { getArticleDetail } from '@/api/article';
+import { getArticleDetail } from '@/api/article'
 import catalogTree from './components/catalog-tree.vue'
-import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue';
+import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue'
 
+const router = useRouter()
 
-const router = useRouter();
+/**
+ * 当前文章状态
+ */
 const articleState = reactive({
   id: 0,
   content: '',
-  catalog: [],
+  catalog: []
 })
 
 onMounted(async () => {
-  articleState.id = router.currentRoute.value.params.id;
-  await loadAritcleDetail(articleState.id);
+  articleState.id = router.currentRoute.value.params.id
+  await loadAritcleDetail(articleState.id)
   nextTick(() => {
     renderArticle('markdown-body', articleState.content)
   })
@@ -23,20 +26,20 @@ onMounted(async () => {
 
 /**
  * 获取文章详情
- * @param {*} id 
+ * @param {*} id
  */
 const loadAritcleDetail = async (id) => {
-  const { catalog, htmlContent } = await getArticleDetail(id);
-  articleState.content = htmlContent;
-  articleState.catalog = JSON.parse(catalog);
+  const { catalog, htmlContent } = await getArticleDetail(id)
+  articleState.content = htmlContent
+  articleState.catalog = JSON.parse(catalog)
 }
 
 /**
  * 插入文章内容 到 DOM
  */
 const renderArticle = (nodeId, data) => {
-  const $node = document.getElementById(nodeId);
-  $node.innerHTML = data;
+  const $node = document.getElementById(nodeId)
+  $node.innerHTML = data
 }
 </script>
 
@@ -59,5 +62,4 @@ const renderArticle = (nodeId, data) => {
 
 
 <style lang="scss" scoped>
-
 </style>

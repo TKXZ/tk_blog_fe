@@ -6,9 +6,11 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: routesConfig,
   scrollBehavior: (to, from, savedPosition) => {
-    if (savedPosition) {
-      return savedPosition;
-    }
+    setTimeout(() => {
+      if (savedPosition) {
+        return savedPosition;
+      }
+    }, 300)
   }
 })
 

@@ -7,7 +7,7 @@ const handleNodeClick = (e) => {
   const $t = document.getElementById(e.text);
   // $t.scrollIntoView(true, { behavior: "smooth" });
 
-  window.scrollTo({top: $t.offsetTop, behavior: 'smooth'})
+  window.scrollTo({ top: $t.offsetTop, behavior: 'smooth' })
 }
 
 
@@ -24,7 +24,6 @@ defineProps({
         overflow: 'auto',
         padding: '10px',
         position: 'sticky',
-        top: '80px',
         borderLeft: '1px solid var(--el-border-color-lighter)',
       }
     }
@@ -41,15 +40,9 @@ const defaultProps = {
 
 <template>
   <div class="catalog-tree-container" :style="style">
-    <el-tree
-      class="catalog-tree"
-      :props="defaultProps"
-      :data="catalog"
-      :highlight-current="true"
-      :default-expand-all="true"
-      @node-click="handleNodeClick"
-    >
-      <template #default="{node}">
+    <el-tree class="catalog-tree" :props="defaultProps" :data="catalog" :highlight-current="true"
+      :default-expand-all="true" @node-click="handleNodeClick">
+      <template #default="{ node }">
         <div class="custom-tree-node">
           <span>{{ node.label }}</span>
         </div>
@@ -60,4 +53,11 @@ const defaultProps = {
 
 
 <style lang="scss" scoped>
+@use '@/assets/style/mixin.scss' as _mixin;
+
+.catalog-tree {
+  .custom-tree-node {
+    @include _mixin.single-text;
+  }
+}
 </style>
