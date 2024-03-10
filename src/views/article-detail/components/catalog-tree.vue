@@ -1,20 +1,19 @@
-<script setup lang="js">
-
+<script setup lang="ts">
 /**
  * 点击目录项
  */
 const handleNodeClick = (e) => {
-  const $t = document.getElementById(e.text);
+  const $t = document.getElementById(e.text)
   // $t.scrollIntoView(true, { behavior: "smooth" });
-
-  window.scrollTo({ top: $t.offsetTop, behavior: 'smooth' })
+  if ($t) {
+    window.scrollTo({ top: $t.offsetTop, behavior: 'smooth' })
+  }
 }
-
 
 defineProps({
   catalog: {
     type: Array,
-    required: true
+    required: true,
   },
   style: {
     type: Object,
@@ -24,24 +23,29 @@ defineProps({
         overflow: 'auto',
         padding: '10px',
         position: 'sticky',
+        top: '60px',
         borderLeft: '1px solid var(--el-border-color-lighter)',
       }
-    }
-  }
+    },
+  },
 })
 
 const defaultProps = {
   children: 'children',
   label: 'text',
 }
-
 </script>
-
 
 <template>
   <div class="catalog-tree-container" :style="style">
-    <el-tree class="catalog-tree" :props="defaultProps" :data="catalog" :highlight-current="true"
-      :default-expand-all="true" @node-click="handleNodeClick">
+    <el-tree
+      class="catalog-tree"
+      :props="defaultProps"
+      :data="catalog"
+      :highlight-current="true"
+      :default-expand-all="true"
+      @node-click="handleNodeClick"
+    >
       <template #default="{ node }">
         <div class="custom-tree-node">
           <span>{{ node.label }}</span>
@@ -50,7 +54,6 @@ const defaultProps = {
     </el-tree>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 @use '@/assets/style/mixin.scss' as _mixin;

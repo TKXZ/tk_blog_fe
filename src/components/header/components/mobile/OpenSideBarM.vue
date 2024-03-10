@@ -1,11 +1,10 @@
-<script setup>
-import eBus from '@/utils/event-bus';
+<script setup lang="ts">
+import emitter from '@/utils/event-bus'
 
 const handleOpenSideBar = () => {
-  eBus.$emit('onOpenMenu', true);
+  emitter.emit('onOpenMenu', true)
 }
 </script>
-
 
 <template>
   <div class="open-header-container">
@@ -20,6 +19,5 @@ const handleOpenSideBar = () => {
     </el-affix>
   </div>
 </template>
-
 
 <style lang="scss" scoped></style>

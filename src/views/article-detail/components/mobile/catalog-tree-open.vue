@@ -1,8 +1,6 @@
-<script setup>
-import { Memo } from '@element-plus/icons-vue';
-
+<script setup lang="ts">
+import { Memo } from '@element-plus/icons-vue'
 </script>
-
 
 <template>
   <div class="catalog-tree-open-container">
@@ -10,12 +8,12 @@ import { Memo } from '@element-plus/icons-vue';
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .catalog-tree-open-container {
   position: fixed;
   right: 20px;
   bottom: 50px;
+
   .open-button {
     font-size: var(--el-font-size-extra-small);
     display: flex;

@@ -1,48 +1,57 @@
-<script setup>
+<script setup lang="ts">
 import { useRelativeTime } from '@/utils/date'
 import { toRefs } from 'vue'
+import { getDefaultNoteListItemProps } from './data'
+import { NoteListItemPropRecord } from './@types'
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true
-  },
-  defaultClick: {
-    type: Function,
-    default: () => {
-      console.log('NoteListItem clicked')
-    }
-  }
-})
+const props = withDefaults(
+  defineProps<NoteListItemPropRecord>(),
+  getDefaultNoteListItemProps(),
+)
 
-const { data } = toRefs(props)
+const { data: dataRef } = toRefs(props)
 </script>
 
 <template>
   <div class="note-list-item" @click="props.defaultClick">
-    <h2 class="item__title">{{ data.title }}</h2>
-    <div class="item__desc">{{ data.desc }}</div>
+    <h2 class="item__title">{{ dataRef.title }}</h2>
+    <div class="item__desc">{{ dataRef.desc }}</div>
     <div class="item__info-box">
       <el-row justify="end">
-        <el-col class="time-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
+        <el-col
+          class="time-box info-item"
+          :xs="9"
+          :sm="6"
+          :md="6"
+          :lg="6"
+          :xl="4"
+        >
           <el-icon size="14" class="icon">
             <i-ep-clock />
           </el-icon>
           <span class="item__time item__info-text"
-            >发布时间:{{ useRelativeTime(data.publishTime) }}</span
+            >发布时间:{{ useRelativeTime(dataRef.createdAt) }}</span
           >
         </el-col>
-        <el-col class="author-box info-item" :xs="9" :sm="6" :md="6" :lg="6" :xl="4">
+        <el-col
+          class="author-box info-item"
+          :xs="9"
+          :sm="6"
+          :md="6"
+          :lg="6"
+          :xl="4"
+        >
           <el-icon size="14" class="icon">
             <i-ep-user />
           </el-icon>
-          <span class="item__author item__info-text">作者:{{ data.author }}</span>
+          <span class="item__author item__info-text"
+            >作者:{{ dataRef.author }}</span
+          >
         </el-col>
       </el-row>
     </div>
   </div>
 </template>
-
 
 <style lang="scss">
 @use '@/assets/style/mixin.scss' as _mixin;

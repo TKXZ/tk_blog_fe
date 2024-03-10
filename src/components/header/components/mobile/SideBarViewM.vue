@@ -1,35 +1,52 @@
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import eBus from '@/utils/event-bus';
+import emitter from '@/utils/event-bus'
+import type { IndexMenuConfig } from '../pc/@types'
 
-const menuConfig = reactive({
-  mode: 'vertical',
+const menuConfig = reactive<IndexMenuConfig>({
+  config: {
+    mode: 'vertical',
+  },
 })
-const isOpenMenu = ref(false)
-const direction = ref('ltr');
+const isOpenMenuRef = ref<boolean>(false)
+const directionRef = ref<string>('ltr')
 
 onMounted(() => {
-  eBus.$on('onOpenMenu', () => { isOpenMenu.value = true })
+  emitter.on('onOpenMenu', () => {
+    isOpenMenuRef.value = true
+  })
 })
 </script>
 
-
 <template>
   <div class="header-container">
-    <open-side-bar-m :is-menu-open="isOpenMenu"></open-side-bar-m>
+    <open-side-bar-m :is-menu-open="isOpenMenuRef"></open-side-bar-m>
     <div class="header-container__panel">
-      <el-drawer v-model="isOpenMenu" :size="'40%'" :direction="direction">
+      <el-drawer
+        v-model="isOpenMenuRef"
+        :size="'40%'"
+        :direction="directionRef"
+      >
         <template #header="{ titleId }">
-          <p :id="titleId" style="font-size: smaller;">TK_Blog</p>
+          <p :id="titleId" style="font-size: smaller">TK_Blog</p>
         </template>
         <template #default>
           <div class="header-container__panel__body">
             <div class="header-container__panel__avatar-box">
-              <el-avatar class="avatar-image" icon="el-icon-user-solid" size="large" shape="circle"
-                src="/images/avatar.jpg" fit="fill"></el-avatar>
+              <el-avatar
+                class="avatar-image"
+                icon="el-icon-user-solid"
+                size="large"
+                shape="circle"
+                src="/images/avatar.jpg"
+                fit="fill"
+              ></el-avatar>
             </div>
-            <el-divider direction="horizontal" content-position="left"></el-divider>
-            <menu-area :config="menuConfig"></menu-area>
+            <el-divider
+              direction="horizontal"
+              content-position="left"
+            ></el-divider>
+            <menu-area :config="menuConfig.config"></menu-area>
           </div>
         </template>
         <template #footer>
@@ -41,7 +58,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .header-container {

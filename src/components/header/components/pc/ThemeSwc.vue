@@ -1,33 +1,43 @@
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, ref, unref } from 'vue'
 
-const type = ref(false)
+const initTheme = localStorage.getItem('theme') === 'light' ? false : true
+const typeRef = ref<boolean>(initTheme)
 
 /**
  * 更改主题
  */
-const handleChangeTheme = (val) => {
+const handleChangeTheme = (val: boolean) => {
+  const $htmlEl = document.documentElement
   if (val === true) {
-    document.documentElement.classList = 'dark'
+    $htmlEl.className = 'dark'
+    localStorage.setItem('theme', 'dark')
   } else {
-    document.documentElement.classList = ''
+    $htmlEl.className = ''
+    localStorage.setItem('theme', 'light')
   }
 }
-</script>
 
+onMounted(() => {
+  handleChangeTheme(unref(typeRef))
+})
+</script>
 
 <template>
   <div>
-    <el-switch v-model="type" @change="handleChangeTheme">
+    <el-switch v-model="typeRef" @change="handleChangeTheme">
       <template #active-action>
-        <span class="custom-active-action"><el-icon size="12"><i-ep-moon /></el-icon></span>
+        <span class="custom-active-action"
+          ><el-icon size="12"><i-ep-moon /></el-icon
+        ></span>
       </template>
       <template #inactive-action>
-        <span class="custom-inactive-action"><el-icon size="12"><i-ep-sunny color="#000" /></el-icon></span>
+        <span class="custom-inactive-action"
+          ><el-icon size="12"><i-ep-sunny color="#000" /></el-icon
+        ></span>
       </template>
     </el-switch>
   </div>
 </template>
-
 
 <style lang="scss" scoped></style>

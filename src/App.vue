@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import HeaderCpt from '@/components/header/HeaderView.vue'
 import FooterCpt from '@/components/footer/FooterCpt.vue'
 import { nextTick, onMounted } from 'vue'
@@ -35,6 +35,7 @@ onMounted(() => {
 .app-main {
   overflow: visible; // 兼容 sticky
 }
+
 .common-layout {
   background-color: var(--el-bg-color);
 }

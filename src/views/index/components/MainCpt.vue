@@ -1,9 +1,7 @@
-<script setup>
-import NoteList from '@/components/note-list/NoteList.vue';
-import SearchCpt from '@/components/search/SearchCpt.vue';
-
+<script setup lang="ts">
+import NoteList from '@/components/note-list/NoteList.vue'
+import SearchCpt from '@/components/search/SearchCpt.vue'
 </script>
-
 
 <template>
   <div>
@@ -19,7 +17,6 @@ import SearchCpt from '@/components/search/SearchCpt.vue';
     </el-row>
   </div>
 </template>
-
 
 <style lang="scss">
 .search-row {

@@ -12,13 +12,13 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 
-
 export default defineConfig({
   resolve: {
+    extensions: ['.js', '.vue', '.json', '.ts'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '~': fileURLToPath(new URL('./node_modules', import.meta.url)),
-    }
+    },
   },
   css: {
     preprocessorOptions: {
@@ -31,10 +31,7 @@ export default defineConfig({
     vue(),
     AutoImport({
       imports: ['vue'],
-      resolvers: [
-        ElementPlusResolver(),
-        IconsResolver(),
-      ],
+      resolvers: [ElementPlusResolver(), IconsResolver()],
     }),
     Components({
       resolvers: [

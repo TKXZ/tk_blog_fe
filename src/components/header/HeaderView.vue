@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="header-pc">
@@ -7,9 +6,15 @@
       <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="4" class="header-pc__col">
         <title-area />
       </el-col>
-      <el-col class="header-pc__col" :xs="{ span: 12, offset: 0 }" :sm="{ span: 12, offset: 0 }"
-        :md="{ span: 14, offset: 0 }" :lg="{ span: 12, offset: 0 }" :xl="{ span: 12, offset: 2 }">
-        <menu-area />
+      <el-col
+        class="header-pc__col"
+        :xs="{ span: 12, offset: 0 }"
+        :sm="{ span: 12, offset: 0 }"
+        :md="{ span: 14, offset: 0 }"
+        :lg="{ span: 12, offset: 0 }"
+        :xl="{ span: 12, offset: 2 }"
+      >
+        <menu-area :config="{}" />
       </el-col>
       <el-col :span="4">
         <feature-area />

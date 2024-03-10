@@ -1,10 +1,7 @@
-<script setup>
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="main-container">
-
-  </div>
+  <div class="main-container"></div>
 </template>
 
 <style lang="scss">

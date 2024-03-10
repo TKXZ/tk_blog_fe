@@ -1,8 +1,8 @@
-import MainCpt from '@/views/index/components/MainCpt.vue';
+import MainCpt from '@/views/index/components/MainCpt.vue'
 
 const ROUTER_TRANSITION = {
   in: 'animate__fadeInUp', // 注意动画，部分动画可能导致router.scrollBehavior 失效导致滚回顶部
-  out: 'animate__slideOutLeft'
+  out: 'animate__slideOutLeft',
 }
 
 const routes = [
@@ -26,7 +26,7 @@ const routes = [
         },
         component: () => import('@/views/article-detail/article-detail.vue'),
       },
-    ]
+    ],
   },
   {
     path: '/:catchAll(.*)',
@@ -35,4 +35,4 @@ const routes = [
   },
 ]
 
-export default routes;
+export default routes

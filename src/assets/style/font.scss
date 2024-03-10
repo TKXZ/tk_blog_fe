@@ -1,7 +1,8 @@
 // 字体
 @font-face {
   font-family: dingding;
-  src: url('@/assets/font/dingding/DingTalk-JinBuTi.ttf') format('ttf'),
+  src:
+    url('@/assets/font/dingding/DingTalk-JinBuTi.ttf') format('ttf'),
     url('@/assets/font/dingding/DingTalk-JinBuTi.woff') format('woff'),
     url('@/assets/font/dingding/DingTalk-JinBuTi.woff2') format('woff2');
   font-style: normal;
@@ -10,7 +11,8 @@
 
 @font-face {
   font-family: JetBrainsMono;
-  src: url('@/assets/font/jetbrains-mono/JetBrainsMono-Regular.ttf') format('ttf'),
+  src:
+    url('@/assets/font/jetbrains-mono/JetBrainsMono-Regular.ttf') format('ttf'),
     url('@/assets/font/jetbrains-mono/JetBrainsMono-Regular.woff2') format('woff2');
   font-style: normal;
   font-weight: normal;
