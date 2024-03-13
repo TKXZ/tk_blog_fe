@@ -2,6 +2,9 @@
 import { ref, reactive, onMounted } from 'vue'
 import emitter from '@/utils/event-bus'
 import type { IndexMenuConfig } from '../pc/@types'
+import { getHeaderTitle } from '../data'
+
+const titleData = reactive(getHeaderTitle())
 
 const menuConfig = reactive<IndexMenuConfig>({
   config: {
@@ -28,7 +31,7 @@ onMounted(() => {
         :direction="directionRef"
       >
         <template #header="{ titleId }">
-          <p :id="titleId" style="font-size: smaller">TK_Blog</p>
+          <p :id="titleId" style="font-size: smaller">{{ titleData.title }}</p>
         </template>
         <template #default>
           <div class="header-container__panel__body">

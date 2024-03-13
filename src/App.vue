@@ -19,7 +19,9 @@ onMounted(() => {
       </el-header>
       <el-main class="app-main">
         <router-view #default="{ Component }">
-          <transition :enter-active-class="`animate__animated animate__fadeInUp animate__fast`">
+          <transition
+            :enter-active-class="`animate__animated animate__fadeInUp animate__fast`"
+          >
             <component :is="Component"></component>
           </transition>
         </router-view>

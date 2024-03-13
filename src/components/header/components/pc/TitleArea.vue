@@ -1,12 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { getHeaderTitle } from '../data'
+
+const titleData = reactive(getHeaderTitle())
+</script>
 
 <template>
   <div class="title-container">
     <h1 class="title-container__title">
-      <span class="title-container__title__text">TK_Blog</span>
-      <el-tag class="title-container__title__vtag" type="primary" size="small" effect="light">
+      <span class="title-container__title__text">{{ titleData.title }}</span>
+      <el-tag
+        class="title-container__title__vtag"
+        type="primary"
+        size="small"
+        effect="light"
+      >
         <template #default>
-          <span class="vtag__text">beta</span>
+          <span class="vtag__text">{{ titleData.ver }}</span>
         </template>
       </el-tag>
     </h1>
@@ -26,7 +36,7 @@
     &__vtag {
       position: absolute;
       top: 8px;
-      right: -45px;
+      right: -55px;
     }
   }
 }

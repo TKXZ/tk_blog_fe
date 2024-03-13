@@ -67,7 +67,7 @@ defineProps({
 .catalog-tree-mask {
   display: none;
   position: fixed;
-  top: 60px;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;

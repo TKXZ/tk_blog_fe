@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { onMounted, reactive, nextTick } from 'vue'
+import { onMounted, reactive, nextTick, onBeforeUnmount, ref, unref } from 'vue'
 import { Router, useRouter } from 'vue-router'
 import { getArticleDetail } from '@/api/article'
+import { myEach } from '@/utils/my-utils'
+import emitter from '@/utils/event-bus'
 import catalogTree from './components/catalog-tree.vue'
 import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue'
 
 const router: Router = useRouter()
+const headingObserver = ref<IntersectionObserver | null>(null)
+const isMobile = localStorage.getItem('isMobileDevice') || false
 
 /**
  * 当前文章状态
@@ -14,14 +18,6 @@ const articleState = reactive<ArticleStateRecord>({
   id: 0,
   content: '',
   catalog: [],
-})
-
-onMounted(async () => {
-  articleState.id = +router.currentRoute.value.params.id
-  await loadAritcleDetail(articleState.id)
-  nextTick(() => {
-    renderArticle('#markdown-body', articleState.content)
-  })
 })
 
 /**
@@ -41,6 +37,73 @@ const renderArticle = (selector: string, data: string): void => {
   const $node = document.querySelector(selector)
   $node ? ($node.innerHTML = data) : ''
 }
+
+/**
+ * 断开监视器
+ */
+const delObserver = () => {
+  if (unref(headingObserver)) {
+    ;(headingObserver.value as IntersectionObserver).disconnect()
+  }
+}
+
+const createHeadingObserver = () => {
+  /**
+   * 创建观察器 - 标题
+   */
+  const createObserver = (
+    callback: IntersectionObserverCallback,
+    tarEls: HTMLElement | HTMLElement[] | HTMLCollectionOf<Element>,
+  ): void => {
+    const observerOption: IntersectionObserverInit = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    }
+
+    const observer = new IntersectionObserver(callback, observerOption)
+    if (tarEls instanceof Array || Object.hasOwnProperty.call(tarEls, length)) {
+      myEach(tarEls, (el) => {
+        observer.observe(el)
+      })
+    } else {
+      observer.observe(tarEls as Element)
+    }
+
+    headingObserver.value = observer
+  }
+
+  /**
+   * 查找在视口 可见度内标题
+   */
+  const findHeadingOnCurView = (
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver,
+  ) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        // 仅标题进入触发回调
+        emitter.emit('onHeadingChange', e.target)
+      }
+    })
+  }
+
+  let $headingNodeList = document.getElementsByClassName('markdown-heading')
+  createObserver(findHeadingOnCurView, $headingNodeList)
+}
+
+onMounted(async () => {
+  articleState.id = +router.currentRoute.value.params.id
+  await loadAritcleDetail(articleState.id)
+  nextTick(() => {
+    renderArticle('#markdown-body', articleState.content)
+    createHeadingObserver()
+  })
+})
+
+onBeforeUnmount(() => {
+  delObserver()
+})
 </script>
 
 <template>
