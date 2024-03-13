@@ -1,14 +1,28 @@
 <script setup lang="ts">
 import HeaderCpt from '@/components/header/HeaderView.vue'
 import FooterCpt from '@/components/footer/FooterCpt.vue'
-import { nextTick, onMounted } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted } from 'vue'
 import { closeLoading } from './utils/loading'
+// import { useDevice } from './utils/device/useDevice'
+// import { throttle } from './utils/my-utils/throttle/throttle'
+// import emitter from './utils/event-bus'
+
+// const setDevice2Storge = throttle(() => {
+//   localStorage.setItem('device', useDevice())
+//   emitter.emit('onChangeDevice')
+// }, 300)
+
+// window.addEventListener('resize', setDevice2Storge)
 
 onMounted(() => {
   nextTick(() => {
     closeLoading()
   })
 })
+
+// onBeforeUnmount(() => {
+//   window.removeEventListener('resize', setDevice2Storge)
+// })
 </script>
 
 <template>

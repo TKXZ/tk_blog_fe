@@ -1,8 +1,8 @@
-export const isMobile = (): boolean => {
-  const userAgent: string = navigator.userAgent
-  if (userAgent.includes('Mobile')) {
-    return true
+export const useDevice = (): string => {
+  const deviceWidth: number = window.innerWidth
+  if (deviceWidth <= 992) {
+    return 'mobile'
   } else {
-    return false
+    return 'pc'
   }
 }

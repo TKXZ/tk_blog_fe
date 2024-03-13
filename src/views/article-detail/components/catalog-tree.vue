@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import emitter from '@/utils/event-bus'
 import { TreeInstance } from 'element-plus'
-import { nextTick, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { ObserverHeadingChangeCbData } from '../@types'
 
 const treeRef = ref<TreeInstance | null>(null)
 const curCatalogIdRef = ref<number | null>(null)
+const $catalogTreeContainerRef = ref<HTMLElement | null>(null)
 
 defineProps({
   catalog: {
@@ -54,6 +56,22 @@ const handleNodeClick = (nodeData, treeNode) => {
   }
 }
 
+/**
+ * 观测视口标题更变回调
+ */
+const observeHeadingChangeCb = (data: ObserverHeadingChangeCbData) => {
+  if (treeRef.value) {
+    findCurHeading(treeRef.value.data, data.el?.textContent as string)
+  }
+  if ($catalogTreeContainerRef.value) {
+    const $container = $catalogTreeContainerRef.value
+    if ($container.offsetHeight !== 0) {
+      $container.scrollTop =
+        data.curElIndex * ($container.scrollHeight / data.count)
+    }
+  }
+}
+
 const defaultProps = {
   children: 'children',
   label: 'text',
@@ -61,19 +79,21 @@ const defaultProps = {
 
 onMounted(() => {
   nextTick(() => {
-    emitter.on('onHeadingChange', (newEl) => {
-      setTimeout(() => {
-        if (treeRef.value) {
-          findCurHeading(treeRef.value.data, newEl?.textContent as string)
-        }
-      })
-    })
+    emitter.on('onHeadingChange', observeHeadingChangeCb)
   })
+})
+
+onBeforeUnmount(() => {
+  emitter.off('onHeadingChange', observeHeadingChangeCb)
 })
 </script>
 
 <template>
-  <div class="catalog-tree-container" :style="style">
+  <div
+    class="catalog-tree-container"
+    :style="style"
+    ref="$catalogTreeContainerRef"
+  >
     <el-tree
       class="catalog-tree"
       ref="treeRef"
@@ -98,7 +118,7 @@ onMounted(() => {
 @use '@/assets/style/mixin.scss' as _mixin;
 
 .catalog-tree {
-  .el-tree-node.is-current .custom-tree-node {
+  .el-tree-node.is-current > .el-tree-node__content > .custom-tree-node {
     color: var(--el-color-primary);
   }
   .custom-tree-node {

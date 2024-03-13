@@ -6,10 +6,13 @@ import { myEach } from '@/utils/my-utils'
 import emitter from '@/utils/event-bus'
 import catalogTree from './components/catalog-tree.vue'
 import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue'
+import { ArticleStateRecord } from './@types'
+
+// type Device = 'mobile' | 'pc'
 
 const router: Router = useRouter()
 const headingObserver = ref<IntersectionObserver | null>(null)
-const isMobile = localStorage.getItem('isMobileDevice') || false
+// const device = ref<Device>('pc')
 
 /**
  * 当前文章状态
@@ -18,7 +21,17 @@ const articleState = reactive<ArticleStateRecord>({
   id: 0,
   content: '',
   catalog: [],
+  catalogM: [],
 })
+
+/**
+ * 监听设备宽度更变
+ */
+// const getDeviceFromStorage = () => {
+//   localStorage.getItem('device') &&
+//     (device.value = localStorage.getItem('device') as Device)
+// }
+// emitter.on('onChangeDevice', getDeviceFromStorage)
 
 /**
  * 获取文章详情
@@ -28,6 +41,7 @@ const loadAritcleDetail = async (id: number): Promise<void> => {
   const { catalog, htmlContent } = await getArticleDetail(id)
   articleState.content = htmlContent
   articleState.catalog = JSON.parse(catalog)
+  articleState.catalogM = JSON.parse(catalog)
 }
 
 /**
@@ -47,20 +61,22 @@ const delObserver = () => {
   }
 }
 
+/**
+ * 创建标题与视口观察器
+ */
 const createHeadingObserver = () => {
-  /**
-   * 创建观察器 - 标题
-   */
   const createObserver = (
     callback: IntersectionObserverCallback,
-    tarEls: HTMLElement | HTMLElement[] | HTMLCollectionOf<Element>,
+    tarEls: HTMLElement | HTMLElement[] | HTMLCollectionOf<Element> | NodeList,
   ): void => {
+    // 配置
     const observerOption: IntersectionObserverInit = {
       root: null,
       rootMargin: '0px',
       threshold: 1.0,
     }
 
+    // 观察器
     const observer = new IntersectionObserver(callback, observerOption)
     if (tarEls instanceof Array || Object.hasOwnProperty.call(tarEls, length)) {
       myEach(tarEls, (el) => {
@@ -81,14 +97,29 @@ const createHeadingObserver = () => {
     observer: IntersectionObserver,
   ) => {
     entries.forEach((e) => {
+      let index
+      try {
+        // 找到当前标题位置
+        $headingNodeList.forEach((h, i) => {
+          if (h.textContent === e.target.textContent) {
+            index = i
+            throw new Error('')
+          }
+        })
+      } catch (err) {}
       if (e.isIntersecting) {
         // 仅标题进入触发回调
-        emitter.emit('onHeadingChange', e.target)
+        emitter.emit('onHeadingChange', {
+          el: e.target,
+          curElIndex: index,
+          count: $headingNodeList.length,
+        })
       }
     })
   }
 
-  let $headingNodeList = document.getElementsByClassName('markdown-heading')
+  // 获取所有标题DOM
+  let $headingNodeList = document.querySelectorAll('.markdown-heading')
   createObserver(findHeadingOnCurView, $headingNodeList)
 }
 
@@ -102,6 +133,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  // emitter.off('onChangeDevice', getDeviceFromStorage)
   delObserver()
 })
 </script>
@@ -118,7 +150,7 @@ onBeforeUnmount(() => {
     </el-row>
     <div class="catalog_tree_mobile">
       <catalog-tree-mobile
-        :catalog="articleState.catalog"
+        :catalog="articleState.catalogM"
       ></catalog-tree-mobile>
     </div>
   </div>

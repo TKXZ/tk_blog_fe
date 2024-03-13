@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, unref } from 'vue'
 
-const initTheme = localStorage.getItem('theme') === 'light' ? false : true
+const initTheme = localStorage.getItem('theme') === 'dark' ? true : false
 const typeRef = ref<boolean>(initTheme)
 
 /**
@@ -9,7 +9,7 @@ const typeRef = ref<boolean>(initTheme)
  */
 const handleChangeTheme = (val: boolean) => {
   const $htmlEl = document.documentElement
-  if (val === true) {
+  if (val) {
     $htmlEl.className = 'dark'
     localStorage.setItem('theme', 'dark')
   } else {
