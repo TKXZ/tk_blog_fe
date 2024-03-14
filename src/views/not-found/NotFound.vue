@@ -23,16 +23,14 @@ const handleBack = () => {
 
 <style lang="scss" scoped>
 .not-found-container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  .not-found-img {
-    width: 600px;
-  }
-
   .back-btn {
+    margin-top: 50px;
     width: 150px;
   }
 }

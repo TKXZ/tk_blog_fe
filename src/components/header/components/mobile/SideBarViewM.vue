@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import emitter from '@/utils/event-bus'
 import type { IndexMenuConfig } from '../pc/@types'
 import { getHeaderTitle } from '../data'
@@ -14,10 +14,16 @@ const menuConfig = reactive<IndexMenuConfig>({
 const isOpenMenuRef = ref<boolean>(false)
 const directionRef = ref<string>('ltr')
 
+const changeMenuOpen = () => {
+  isOpenMenuRef.value = true
+}
+
 onMounted(() => {
-  emitter.on('onOpenMenu', () => {
-    isOpenMenuRef.value = true
-  })
+  emitter.on('onOpenMenu', changeMenuOpen)
+})
+
+onBeforeUnmount(() => {
+  emitter.off('onOpenMenu', changeMenuOpen)
 })
 </script>
 

@@ -6,6 +6,24 @@ import emitter from '@/utils/event-bus'
 import type { ArticleDataRecord, RequestListRecord } from './@types'
 
 const router: Router = useRouter()
+
+/**
+ * 文章列表请求配置
+ */
+const getListConfig = reactive<RequestListRecord>({
+  search: '',
+  page: 1,
+  size: 8,
+})
+
+/**
+ * 文章列表数据
+ */
+const articleList = reactive<ArticleDataRecord>({
+  list: [],
+  count: 0,
+})
+
 /**
  * 搜索框查询
  */
@@ -13,7 +31,6 @@ const handleSearch = async (search: string) => {
   getListConfig.search = search
   getListConfig.page = 1
   await loadArticleList(getListConfig)
-  emitter.emit('onSearchRes')
 }
 emitter.on('onSearch', handleSearch)
 
@@ -32,23 +49,6 @@ const sizeChange = (size: number) => {
   getListConfig.size = size
   loadArticleList(getListConfig)
 }
-
-/**
- * 文章列表请求配置
- */
-const getListConfig = reactive<RequestListRecord>({
-  search: '',
-  page: 1,
-  size: 8,
-})
-
-/**
- * 文章列表数据
- */
-const articleList = reactive<ArticleDataRecord>({
-  list: [],
-  count: 0,
-})
 
 /**
  * 获取文章列表

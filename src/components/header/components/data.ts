@@ -1,6 +1,6 @@
 export const getHeaderTitle = () => {
   return {
-    title: 'SZ_Blog',
-    ver: 'beta0',
+    title: 'Wsz_Notes',
+    ver: 'v0.0.6',
   }
 }

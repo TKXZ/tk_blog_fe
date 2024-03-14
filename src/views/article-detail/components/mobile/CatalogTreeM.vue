@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defineProps, ref, reactive, onMounted, nextTick } from 'vue'
-import catalogTree from '../catalog-tree.vue'
-import catalogTreeOpen from './catalog-tree-open.vue'
+import { defineProps, ref, reactive } from 'vue'
+import catalogTree from '../CatalogTree.vue'
+import catalogTreeOpen from './CatalogTreeOpen.vue'
 
 const treeMaskRef = ref<HTMLElement | null>(null)
 const treeStyle = reactive({

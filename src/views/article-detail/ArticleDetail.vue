@@ -4,15 +4,13 @@ import { Router, useRouter } from 'vue-router'
 import { getArticleDetail } from '@/api/article'
 import { myEach } from '@/utils/my-utils'
 import emitter from '@/utils/event-bus'
-import catalogTree from './components/catalog-tree.vue'
-import catalogTreeMobile from './components/mobile/catalog-tree-mobile.vue'
 import { ArticleStateRecord } from './@types'
-
-// type Device = 'mobile' | 'pc'
+import catalogTree from './components/CatalogTree.vue'
+import catalogTreeMobile from './components/mobile/CatalogTreeM.vue'
+import { throttle } from '@/utils/my-utils/throttle/throttle'
 
 const router: Router = useRouter()
 const headingObserver = ref<IntersectionObserver | null>(null)
-// const device = ref<Device>('pc')
 
 /**
  * 当前文章状态
@@ -23,15 +21,6 @@ const articleState = reactive<ArticleStateRecord>({
   catalog: [],
   catalogM: [],
 })
-
-/**
- * 监听设备宽度更变
- */
-// const getDeviceFromStorage = () => {
-//   localStorage.getItem('device') &&
-//     (device.value = localStorage.getItem('device') as Device)
-// }
-// emitter.on('onChangeDevice', getDeviceFromStorage)
 
 /**
  * 获取文章详情
@@ -65,6 +54,8 @@ const delObserver = () => {
  * 创建标题与视口观察器
  */
 const createHeadingObserver = () => {
+  let prevScrollY = 0 // 记录前一次滚动距离
+
   const createObserver = (
     callback: IntersectionObserverCallback,
     tarEls: HTMLElement | HTMLElement[] | HTMLCollectionOf<Element> | NodeList,
@@ -72,7 +63,7 @@ const createHeadingObserver = () => {
     // 配置
     const observerOption: IntersectionObserverInit = {
       root: null,
-      rootMargin: '0px',
+      rootMargin: '-100px', // 移动端不会生效
       threshold: 1.0,
     }
 
@@ -89,6 +80,26 @@ const createHeadingObserver = () => {
     headingObserver.value = observer
   }
 
+  // 寻找并派发视口标题事件
+  const findAndEmit = (e) => {
+    let index // 记录当前标题在DOM节点列表中位置
+    try {
+      // 找到当前标题位置
+      $headingNodeList.forEach((h, i) => {
+        if (h.textContent === e.target.textContent) {
+          index = i
+          throw new Error('')
+        }
+      })
+    } catch (err) {}
+    // 仅标题进入触发回调
+    emitter.emit('onHeadingChange', {
+      el: e.target,
+      curElIndex: index,
+      count: $headingNodeList.length,
+    })
+  }
+
   /**
    * 查找在视口 可见度内标题
    */
@@ -96,31 +107,32 @@ const createHeadingObserver = () => {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver,
   ) => {
-    entries.forEach((e) => {
-      let index
-      try {
-        // 找到当前标题位置
-        $headingNodeList.forEach((h, i) => {
-          if (h.textContent === e.target.textContent) {
-            index = i
-            throw new Error('')
-          }
-        })
-      } catch (err) {}
-      if (e.isIntersecting) {
-        // 仅标题进入触发回调
-        emitter.emit('onHeadingChange', {
-          el: e.target,
-          curElIndex: index,
-          count: $headingNodeList.length,
-        })
-      }
-    })
+    console.log(1)
+    if (window.scrollY > prevScrollY) {
+      entries.forEach((e) => {
+        // 离开视口
+        if (!e.isIntersecting) {
+          findAndEmit(e)
+        }
+      })
+    } else {
+      entries.forEach((e) => {
+        // 进入视口
+        if (e.isIntersecting) {
+          findAndEmit(e)
+        }
+      })
+    }
+    prevScrollY = window.scrollY
   }
 
   // 获取所有标题DOM
   let $headingNodeList = document.querySelectorAll('.markdown-heading')
-  createObserver(findHeadingOnCurView, $headingNodeList)
+  createObserver((entries, observe) => {
+    requestIdleCallback((deadline) => {
+      findHeadingOnCurView(entries, observe)
+    })
+  }, $headingNodeList)
 }
 
 onMounted(async () => {
@@ -133,7 +145,6 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  // emitter.off('onChangeDevice', getDeviceFromStorage)
   delObserver()
 })
 </script>

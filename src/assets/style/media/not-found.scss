@@ -1,0 +1,15 @@
+@media screen and (max-width: 992px) {
+  .not-found-container {
+    .not-found-img {
+      width: 300px;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .not-found-container {
+    .not-found-img {
+      width: 600px;
+    }
+  }
+}

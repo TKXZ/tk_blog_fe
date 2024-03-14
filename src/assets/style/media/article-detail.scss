@@ -6,9 +6,11 @@
 
   .catalog_tree_mobile {
     display: block;
-
-    .catalog-tree-container {
+    .catalog-tree-box {
       top: 0;
+      &__title {
+        display: none;
+      }
     }
   }
 }
