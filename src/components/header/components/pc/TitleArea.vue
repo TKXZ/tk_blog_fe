@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { getHeaderTitle } from '../data'
+import { getHeaderTitle } from '../../data'
 
 const titleData = reactive(getHeaderTitle())
 </script>
@@ -36,8 +36,9 @@ const titleData = reactive(getHeaderTitle())
     &__vtag {
       position: absolute;
       top: 8px;
-      right: -55px;
+      right: -65px;
     }
   }
 }
 </style>
+../../data

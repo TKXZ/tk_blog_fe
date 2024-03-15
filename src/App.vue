@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HeaderCpt from '@/components/header/HeaderView.vue'
 import FooterCpt from '@/components/footer/FooterCpt.vue'
-import { nextTick, onBeforeUnmount, onMounted } from 'vue'
+import { nextTick, onMounted } from 'vue'
 import { closeLoading } from './utils/loading'
 
 onMounted(() => {
@@ -18,16 +18,20 @@ onMounted(() => {
         <header-cpt />
       </el-header>
       <el-main class="app-main">
-        <router-view #default="{ Component }">
-          <transition
-            :enter-active-class="`animate__animated animate__fadeInUp animate__fast`"
-          >
-            <component :is="Component"></component>
-          </transition>
-        </router-view>
+        <template #default>
+          <router-view #default="{ Component }">
+            <transition
+              :enter-active-class="`animate__animated animate__fadeIn`"
+            >
+              <component :is="Component"></component>
+            </transition>
+          </router-view>
+        </template>
       </el-main>
-      <el-footer class="footer-container">
-        <footer-cpt />
+      <el-footer class="footer-container" id="footer-container">
+        <template #default>
+          <footer-cpt />
+        </template>
       </el-footer>
     </el-container>
   </div>
@@ -45,6 +49,5 @@ onMounted(() => {
 
 .footer-container {
   margin-top: 100px;
-  height: 50px;
 }
 </style>

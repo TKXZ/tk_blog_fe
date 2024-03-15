@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import router from '@/router'
 import { ArrowLeftBold } from '@element-plus/icons-vue'
 
 const handleBack = () => {
-  history.back()
+  router.back()
 }
 </script>
 

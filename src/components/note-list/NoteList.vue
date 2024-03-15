@@ -55,7 +55,7 @@ const sizeChange = (size: number) => {
  * @param {*} option
  */
 async function loadArticleList(option: RequestListRecord) {
-  const { articleList: list, count } = await getArticleList(option)
+  const { list, count } = await getArticleList(option)
   articleList.list = list
   articleList.count = count
 }

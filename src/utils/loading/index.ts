@@ -1,7 +1,7 @@
 /**
  * 开启全屏加载动画
  */
-export const openLoading = () => {
+const openLoading = () => {
   try {
     const $loading = document.getElementById('loading-container')
     if ($loading) {

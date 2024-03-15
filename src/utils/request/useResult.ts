@@ -1,4 +1,3 @@
-import { closeLoading } from '../loading'
 import { createMessage } from '../message'
 
 /**
@@ -22,11 +21,9 @@ function handleRes(resPromise: Promise<any>): Promise<any> {
       if (res[resRoleConfig.resErrSignName] !== 0) {
         throw new Error('获取资源错误')
       }
-      closeLoading()
       return res[resRoleConfig.resDataName]
     })
     .catch((error) => {
-      closeLoading()
       createMessage('error', error.message)
     })
 }

@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 import emitter from '@/utils/event-bus'
 import type { IndexMenuConfig } from '../pc/@types'
-import { getHeaderTitle } from '../data'
+import { getHeaderTitle } from '../../data'
 
 const titleData = reactive(getHeaderTitle())
 

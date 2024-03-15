@@ -4,13 +4,18 @@ import { Router, useRouter } from 'vue-router'
 import { getArticleDetail } from '@/api/article'
 import { myEach } from '@/utils/my-utils'
 import emitter from '@/utils/event-bus'
-import { ArticleStateRecord } from './@types'
+import type { ArticleStateRecord } from './@types'
+import { throttle } from '@/utils/my-utils/throttle'
 import catalogTree from './components/CatalogTree.vue'
 import catalogTreeMobile from './components/mobile/CatalogTreeM.vue'
-import { throttle } from '@/utils/my-utils/throttle/throttle'
+import ArticleSkeleton from './components/ArticleSkeleton.vue'
+import CatalogSkeleton from './components/CatalogSkeleton.vue'
 
 const router: Router = useRouter()
 const headingObserver = ref<IntersectionObserver | null>(null)
+
+// 文章获取状态
+const isLoading = ref<boolean>(true)
 
 /**
  * 当前文章状态
@@ -28,6 +33,7 @@ const articleState = reactive<ArticleStateRecord>({
  */
 const loadAritcleDetail = async (id: number): Promise<void> => {
   const { catalog, htmlContent } = await getArticleDetail(id)
+  isLoading.value = false
   articleState.content = htmlContent
   articleState.catalog = JSON.parse(catalog)
   articleState.catalogM = JSON.parse(catalog)
@@ -63,7 +69,7 @@ const createHeadingObserver = () => {
     // 配置
     const observerOption: IntersectionObserverInit = {
       root: null,
-      rootMargin: '-100px', // 移动端不会生效
+      rootMargin: '-120px', // 移动端不会生效
       threshold: 1.0,
     }
 
@@ -107,32 +113,36 @@ const createHeadingObserver = () => {
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver,
   ) => {
-    console.log(1)
-    if (window.scrollY > prevScrollY) {
-      entries.forEach((e) => {
-        // 离开视口
-        if (!e.isIntersecting) {
-          findAndEmit(e)
-        }
+    if (entries.length === $headingNodeList.length) return // 防止第一次全部元素触发
+    if (window.scrollY < 60) {
+      emitter.emit('onHeadingChange', {
+        el: $headingNodeList[0],
+        curElIndex: 0,
+        count: $headingNodeList.length,
       })
     } else {
-      entries.forEach((e) => {
-        // 进入视口
-        if (e.isIntersecting) {
-          findAndEmit(e)
-        }
-      })
+      if (window.scrollY > prevScrollY) {
+        entries.forEach((e) => {
+          // 离开视口
+          if (!e.isIntersecting) {
+            findAndEmit(e)
+          }
+        })
+      } else {
+        entries.forEach((e) => {
+          // 进入视口
+          if (e.isIntersecting) {
+            findAndEmit(e)
+          }
+        })
+      }
+      prevScrollY = window.scrollY
     }
-    prevScrollY = window.scrollY
   }
 
   // 获取所有标题DOM
   let $headingNodeList = document.querySelectorAll('.markdown-heading')
-  createObserver((entries, observe) => {
-    requestIdleCallback((deadline) => {
-      findHeadingOnCurView(entries, observe)
-    })
-  }, $headingNodeList)
+  createObserver(throttle(findHeadingOnCurView, 60), $headingNodeList)
 }
 
 onMounted(async () => {
@@ -153,18 +163,31 @@ onBeforeUnmount(() => {
   <div class="article-detail">
     <el-row justify="center">
       <el-col :xs="22" :sm="20" :md="16" :lg="12" :xl="12">
-        <div class="markdown-body" id="markdown-body"></div>
+        <article-skeleton v-if="isLoading" />
+        <div class="markdown-body" id="markdown-body" v-else></div>
       </el-col>
-      <el-col :span="5" :offset="1" class="catalog_tree_pc">
-        <catalog-tree :catalog="articleState.catalog"></catalog-tree>
+      <el-col
+        :span="5"
+        :offset="1"
+        class="catalog_tree_pc"
+        @mouseenter="delObserver"
+        @mouseleave="createHeadingObserver"
+      >
+        <catalog-skeleton v-if="isLoading" />
+        <catalog-tree :catalog="articleState.catalog" v-else></catalog-tree>
       </el-col>
     </el-row>
     <div class="catalog_tree_mobile">
       <catalog-tree-mobile
+        v-if="!isLoading"
         :catalog="articleState.catalogM"
       ></catalog-tree-mobile>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.article-detail {
+  margin-top: 30px;
+}
+</style>

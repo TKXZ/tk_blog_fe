@@ -1,22 +1,6 @@
 <script setup lang="ts">
-import { ref, defineProps } from 'vue'
-import { Router, useRouter } from 'vue-router'
+import { defineProps } from 'vue'
 import type { IndexMenuConfig } from './@types'
-
-const router: Router = useRouter()
-
-const activeIndexRef = ref<string>('1')
-
-/**
- * 菜单更变
- */
-const handleSelectMenu = (key: string) => {
-  if (key === '2') {
-    router.push({
-      path: '/not-found',
-    })
-  }
-}
 
 withDefaults(defineProps<IndexMenuConfig>(), {
   config: () => ({}),
@@ -27,20 +11,19 @@ withDefaults(defineProps<IndexMenuConfig>(), {
   <div class="menu-container">
     <el-menu
       class="menu-container__main-menu"
-      :default-active="activeIndexRef"
+      router
+      :default-active="$router.currentRoute.value.path"
       :mode="config.mode ? config.mode : 'horizontal'"
-      @select="handleSelectMenu"
       background-color="transparent"
       :collapse="config.collapse"
-      popper-effect="dark"
     >
-      <el-menu-item index="1">
+      <el-menu-item index="/">
         <el-icon>
-          <i-ep-notebook />
+          <i-ep-lollipop />
         </el-icon>
-        <span>笔记</span>
+        <span>首页</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="/not-found">
         <el-icon>
           <i-ep-refresh />
         </el-icon>
