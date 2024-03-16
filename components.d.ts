@@ -8,6 +8,8 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BackTop: typeof import('./src/components/back-top/BackTop.vue')['default']
+    CatagoryList: typeof import('./src/components/category-list/CatagoryList.vue')['default']
+    DynamicMenu: typeof import('./src/components/header/components/pc/DynamicMenu.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
@@ -25,9 +27,11 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElResult: typeof import('element-plus/es')['ElResult']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
@@ -44,6 +48,7 @@ declare module 'vue' {
     IEpRefresh: typeof import('~icons/ep/refresh')['default']
     IEpSunny: typeof import('~icons/ep/sunny')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
+    LoginView: typeof import('./src/components/login/LoginView.vue')['default']
     MenuArea: typeof import('./src/components/header/components/pc/MenuArea.vue')['default']
     NoteList: typeof import('./src/components/note-list/NoteList.vue')['default']
     NoteListItem: typeof import('./src/components/note-list/NoteListItem.vue')['default']

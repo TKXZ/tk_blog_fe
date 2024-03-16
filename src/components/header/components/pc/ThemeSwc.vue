@@ -28,12 +28,12 @@ onMounted(() => {
     <el-switch v-model="typeRef" @change="handleChangeTheme">
       <template #active-action>
         <span class="custom-active-action"
-          ><el-icon size="12"><i-ep-moon /></el-icon
+          ><el-icon size="12"><Icon icon="Moon" /></el-icon
         ></span>
       </template>
       <template #inactive-action>
         <span class="custom-inactive-action"
-          ><el-icon size="12"><i-ep-sunny color="#000" /></el-icon
+          ><el-icon size="12" color="#000"><Icon icon="Sunny" /></el-icon
         ></span>
       </template>
     </el-switch>

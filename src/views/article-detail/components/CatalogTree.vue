@@ -78,7 +78,7 @@ const observeHeadingChangeCb = (data: ObserverHeadingChangeCbData) => {
  * 初始化文章路由 hash 跳转
  */
 const initRouteHash = () => {
-  if (route.hash != '') {
+  if (route.hash) {
     setTimeout(() => {
       handleNodeClick({ text: route.hash.replace('#', '') })
     }, 300) // 动画后

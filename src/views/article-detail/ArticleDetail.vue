@@ -12,7 +12,9 @@ import ArticleSkeleton from './components/ArticleSkeleton.vue'
 import CatalogSkeleton from './components/CatalogSkeleton.vue'
 
 const router: Router = useRouter()
+const articleDetailRef = ref<HTMLElement | null>(null)
 const headingObserver = ref<IntersectionObserver | null>(null)
+let $headingNodeList = document.querySelectorAll('.markdown-heading') // 获取所有标题DOM
 
 // 文章获取状态
 const isLoading = ref<boolean>(true)
@@ -56,11 +58,36 @@ const delObserver = () => {
   }
 }
 
+// window.addEventListener(
+//   'scroll',
+//   throttle(() => {
+//     if (window.scrollY < 60) {
+//       emitter.emit('onHeadingChange', {
+//         el: $headingNodeList[0],
+//         curElIndex: 0,
+//         count: $headingNodeList.length,
+//       })
+//     } else if (articleDetailRef.value) {
+//       if (
+//         window.scrollY >=
+//         articleDetailRef.value?.offsetHeight - (window.screen.availHeight + 600)
+//       ) {
+//         emitter.emit('onHeadingChange', {
+//           el: $headingNodeList[$headingNodeList.length - 1],
+//           curElIndex: $headingNodeList.length - 1,
+//           count: $headingNodeList.length,
+//         })
+//       }
+//     }
+//   }, 600),
+// )
+
 /**
  * 创建标题与视口观察器
  */
 const createHeadingObserver = () => {
   let prevScrollY = 0 // 记录前一次滚动距离
+  let $headingNodeList = document.querySelectorAll('.markdown-heading') // 获取所有标题DOM
 
   const createObserver = (
     callback: IntersectionObserverCallback,
@@ -140,9 +167,11 @@ const createHeadingObserver = () => {
     }
   }
 
-  // 获取所有标题DOM
-  let $headingNodeList = document.querySelectorAll('.markdown-heading')
-  createObserver(throttle(findHeadingOnCurView, 60), $headingNodeList)
+  createObserver((entries, observer) => {
+    requestIdleCallback(() => {
+      findHeadingOnCurView(entries, observer)
+    })
+  }, $headingNodeList)
 }
 
 onMounted(async () => {
@@ -160,7 +189,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="article-detail">
+  <div class="article-detail" ref="articleDetailRef">
     <el-row justify="center">
       <el-col :xs="22" :sm="20" :md="16" :lg="12" :xl="12">
         <article-skeleton v-if="isLoading" />

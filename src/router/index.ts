@@ -5,11 +5,16 @@ const router: Router = createRouter({
   history: createWebHashHistory(),
   routes: routesConfig,
   scrollBehavior: (to, from, savedPosition) => {
-    setTimeout(() => {
-      if (savedPosition) {
-        return savedPosition
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
       }
-    }, 300) // 动画完成后
+    } else {
+      return {
+        top: 0,
+      }
+    }
   },
 })
 

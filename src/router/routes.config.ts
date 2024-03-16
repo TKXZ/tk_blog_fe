@@ -26,6 +26,14 @@ const routes: Readonly<RouteRecordRaw[]> = [
           title: '文章详情',
         },
         component: () => import('@/views/article-detail/ArticleDetail.vue'),
+        beforeEnter: (to, from) => {
+          const { id } = to.params
+          if (isNaN(+id)) {
+            return '/not-found'
+          } else {
+            return true
+          }
+        },
       },
     ],
   },

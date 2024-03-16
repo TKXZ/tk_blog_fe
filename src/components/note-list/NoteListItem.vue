@@ -27,7 +27,7 @@ const { data: dataRef } = toRefs(props)
           :xl="4"
         >
           <el-icon size="14" class="icon">
-            <i-ep-clock />
+            <Icon icon="Clock" />
           </el-icon>
           <span class="item__time item__info-text"
             >发布时间:{{ useRelativeTime(dataRef.createdAt) }}</span
@@ -42,7 +42,7 @@ const { data: dataRef } = toRefs(props)
           :xl="4"
         >
           <el-icon size="14" class="icon">
-            <i-ep-user />
+            <Icon icon="User" />
           </el-icon>
           <span class="item__author item__info-text"
             >作者:{{ dataRef.author }}</span

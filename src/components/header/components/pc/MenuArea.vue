@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
 import type { IndexMenuConfig } from './@types'
+import { getHeaderMenuData } from '../../data'
+import DynamicMenu from './DynamicMenu.vue'
+
+const menuDataRef = ref(getHeaderMenuData())
 
 withDefaults(defineProps<IndexMenuConfig>(), {
   config: () => ({}),
@@ -17,18 +21,7 @@ withDefaults(defineProps<IndexMenuConfig>(), {
       background-color="transparent"
       :collapse="config.collapse"
     >
-      <el-menu-item index="/">
-        <el-icon>
-          <i-ep-lollipop />
-        </el-icon>
-        <span>首页</span>
-      </el-menu-item>
-      <el-menu-item index="/not-found">
-        <el-icon>
-          <i-ep-refresh />
-        </el-icon>
-        <span>更新日志</span>
-      </el-menu-item>
+      <dynamic-menu :menu-arr="menuDataRef" />
     </el-menu>
   </div>
 </template>
