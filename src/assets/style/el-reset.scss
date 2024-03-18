@@ -1,0 +1,9 @@
+.el-menu.el-menu--popup.el-menu--popup-bottom-start {
+  .el-menu-item:hover {
+    color: var(--el-color-primary);
+    --el-menu-hover-bg-color: #40a0ff13;
+    a:hover {
+      color: var(--el-color-primary);
+    }
+  }
+}

@@ -5,7 +5,6 @@ import { getArticleDetail } from '@/api/article'
 import { myEach } from '@/utils/my-utils'
 import emitter from '@/utils/event-bus'
 import type { ArticleStateRecord } from './@types'
-import { throttle } from '@/utils/my-utils/throttle'
 import catalogTree from './components/CatalogTree.vue'
 import catalogTreeMobile from './components/mobile/CatalogTreeM.vue'
 import ArticleSkeleton from './components/ArticleSkeleton.vue'
@@ -218,5 +217,6 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .article-detail {
   margin-top: 30px;
+  transition: var(--el-transition-all);
 }
 </style>

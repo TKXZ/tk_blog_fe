@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
-import type { IndexMenuConfig } from './@types'
+import type { IndexMenuConfig, MenuDataRecordRaw } from './@types'
 import { getHeaderMenuData } from '../../data'
 import DynamicMenu from './DynamicMenu.vue'
 
-const menuDataRef = ref(getHeaderMenuData())
+const menuDataRef = ref<MenuDataRecordRaw>(getHeaderMenuData())
 
 withDefaults(defineProps<IndexMenuConfig>(), {
   config: () => ({}),
@@ -28,8 +28,8 @@ withDefaults(defineProps<IndexMenuConfig>(), {
 
 <style lang="scss" scoped>
 .menu-container {
-  &__main-menu {
-    .el-menu-item {
+  .el-menu {
+    :deep(.el-menu-item) {
       --el-menu-hover-bg-color: #40a0ff13;
     }
   }

@@ -11,9 +11,11 @@ const handleChangeTheme = (val: boolean) => {
   const $htmlEl = document.documentElement
   if (val) {
     $htmlEl.className = 'dark'
+    typeRef.value = true
     localStorage.setItem('theme', 'dark')
   } else {
     $htmlEl.className = ''
+    typeRef.value = false
     localStorage.setItem('theme', 'light')
   }
 }

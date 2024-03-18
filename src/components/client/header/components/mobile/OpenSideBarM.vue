@@ -8,7 +8,7 @@ const handleOpenSideBar = () => {
 
 <template>
   <div class="open-header-container">
-    <el-affix :offset="40" target="#app">
+    <el-affix :offset="40" target="html">
       <el-button type="primary" size="default" @click="handleOpenSideBar">
         <template #default>
           <el-icon>

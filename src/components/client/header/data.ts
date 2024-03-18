@@ -1,15 +1,17 @@
+import { MenuDataRecordRaw } from './components/pc/@types'
+
 export const getHeaderTitle = () => {
   return {
-    title: 'W_Notes',
-    ver: 'v0.0.12',
+    title: 'sz_notes',
+    ver: 'v0.0.14',
   }
 }
 
-export const getHeaderMenuData = () => {
+export const getHeaderMenuData = (): MenuDataRecordRaw => {
   return [
     {
       id: 100,
-      path: '/',
+      path: '/client',
       icon: 'Lollipop',
       text: '首页',
     },
@@ -37,7 +39,7 @@ export const getHeaderMenuData = () => {
     },
     {
       id: 300,
-      path: '/not-found',
+      path: '/system',
       icon: 'CoffeeCup',
       text: '后台管理',
     },

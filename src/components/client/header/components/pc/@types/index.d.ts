@@ -1,5 +1,5 @@
 import { MenuProps } from 'element-plus'
-import { VNode } from 'vue'
+import * as ElIcon from '@element-plus/icons-vue'
 
 export interface IndexMenuConfig {
   config: Partial<MenuProps>
@@ -8,7 +8,7 @@ export interface IndexMenuConfig {
 interface MenuItemRecord {
   id: number | string
   path: string
-  icon: VNode
+  icon: keyof typeof ElIcon
   text: string
   href?: string
   children?: MenuItemRecord[] | []

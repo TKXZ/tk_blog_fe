@@ -7,11 +7,12 @@
   /* color: #1F2328; */
   color: var(--el-text-color-regular);
   background-color: var(--el-bg-color);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
+  transition: var(--el-transition-all);
 }
 
 .markdown-body .octicon {
@@ -781,6 +782,7 @@
   color: var(--el-text-color-primary);
   background-color: var(--el-fill-color);
   border-radius: 6px;
+  transition: var(--el-transition-all);
 }
 
 .markdown-body pre code,
@@ -1041,7 +1043,9 @@
 }
 
 .markdown-body .contains-task-list:hover .task-list-item-convert-container,
-.markdown-body .contains-task-list:focus-within .task-list-item-convert-container {
+.markdown-body
+  .contains-task-list:focus-within
+  .task-list-item-convert-container {
   display: block;
   width: auto;
   height: 24px;

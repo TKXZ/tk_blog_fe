@@ -12,7 +12,7 @@ const treeStyle = reactive({
   maxWidth: '60%',
   overflow: 'scroll',
   backgroundColor: 'var(--el-bg-color)',
-  transition: 'right .5s ease 0s',
+  transition: 'var(--el-transition-all)',
 })
 
 /**

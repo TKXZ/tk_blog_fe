@@ -1,9 +1,13 @@
 import { Router, createRouter, createWebHashHistory } from 'vue-router'
-import routesConfig from './routes.config'
+import routesClient from './modules/client'
+import routesManageSystem from './modules/manage-system'
+import routesNotFound from './modules/not-found'
+
+const routes = [...routesClient, ...routesManageSystem, ...routesNotFound]
 
 const router: Router = createRouter({
   history: createWebHashHistory(),
-  routes: routesConfig,
+  routes,
   scrollBehavior: (to, from, savedPosition) => {
     if (to.hash) {
       return {
